@@ -1,6 +1,7 @@
 ﻿using ImGuiNET;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using Num = System.Numerics; // vector 2 collision
 
 namespace Preditor
 {
@@ -10,18 +11,18 @@ namespace Preditor
         private bool _isRunning = false;
         private bool _showDemoWindow = false;
 
-        public bool IsRunning => _isRunning;
-
         public Editor(Starbrite engine) 
         { 
             _engine = engine;
-            _isRunning = true;
         }
 
         public void Draw(GameTime gameTime)
         {
-            if (ImGui.Button("Power " + (_isRunning ? "Off": "On"))) Toggle("isRunning");
-            if (ImGui.Button("Demo " + (_showDemoWindow ? "Off" : "On"))) Toggle("showDemo");
+            ImGui.Begin(_engine.VersionString);
+
+            ImGui.SeparatorText("System Info & Operations");
+
+            if (ImGui.Button("Demo " + (_showDemoWindow ? "Off" : "On"))) _showDemoWindow = !_showDemoWindow;
             if (ImGui.Button("List Config Files")) _engine.ListConfigFiles(); // get file list
 
             if (_engine.ConfigFileArray.Count() > 0)
@@ -29,59 +30,52 @@ namespace Preditor
                 if (ImGui.Button("Scan " + _engine.ConfigFileArray.Count().ToString() + " Config Files")) _engine.ScanConfigFiles(); // scan file content
             }
 
-            ImGui.Text(string.Format("Application average {0:F3} ms/frame ({1:F1} FPS)", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
+            ImGui.Text(string.Format("Frame Time: {0:F3}ms / {1:F1} FPS", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
 
+            ShowOptionsTable();
 
+            // imgui included demo
             if (_showDemoWindow)
             {
                 ImGui.ShowDemoWindow();
             }
 
-            ShowOptionsTable();
+            ImGui.End();
         }
 
         ///// IMGUI Functions - call from Draw()
         public void ShowOptionsTable()
         {
+            ImGui.SeparatorText("Options (Read Only)");
+            foreach (var option in _engine.Options)
+            {
+                if (option.Protected)
+                {
+                    ImGui.Text(option.Name + ": ");
+                    ImGui.SameLine();
 
-            ImGui.SeparatorText("Options");
+                    ImGui.SameLine();
+                    ImGui.Text(_engine.GetOptionValue(option) + ": ");
+                    ImGui.SameLine();
+                    ImGui.Text(option.Description);
+                }
+            }
+
+            ImGui.SeparatorText("Options (Writeable)");
             foreach (var option in _engine.Options) 
             { 
-                ImGui.Text(option.Name + ": "); 
-                ImGui.SameLine();
-                ImGui.Text(GetOptionValue(option));
+                if (!option.Protected) 
+                { 
+                    ImGui.Text(option.Name + ": ");
+                    ImGui.SameLine();
+
+                    ImGui.SameLine();
+                    ImGui.Text(_engine.GetOptionValue(option) + ": ");
+                    ImGui.SameLine();
+                    ImGui.Text(option.Description);
+                }
             }
         }
 
-        public string GetOptionValue(StarbriteOption _option)
-        {
-            switch (_option.Type)
-            {
-                case "string":
-                    var os = (StarbriteOptionString)_option;
-                    return os.Value;
-                case "int":
-                    var oi = (StarbriteOptionInt)_option;
-                    return oi.Value.ToString();
-            }
-
-            return "ERROR: GetOptionValue";
-        }
-
-        // get rid of this shit
-        public bool Toggle(string setting)
-        {
-            switch (setting)
-            {
-                case "isRunning":
-                    _isRunning = !_isRunning;
-                    return _isRunning;
-                case "showDemo":
-                    _showDemoWindow = !_showDemoWindow;
-                    return _showDemoWindow;
-            }
-
-            return false;
-        }
     }
 }
