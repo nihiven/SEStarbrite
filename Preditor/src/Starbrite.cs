@@ -25,27 +25,33 @@ namespace Preditor
     public class StarbriteOptionString : StarbriteOption
     {
         public string Value;
+        public readonly string ValueDefault;
         public StarbriteOptionString(string _name, string _value, bool _protected, string? _description) : base("string", _name, _protected, _description) 
         {
             Value = _value;
+            ValueDefault = _value;
         }
     }
 
     public class StarbriteOptionInt : StarbriteOption
     {
         public int Value;
+        public readonly int ValueDefault;
         public StarbriteOptionInt(string _name, int _value, bool _protected, string? _description) : base("int", _name, _protected, _description)
         {
             Value = _value;
+            ValueDefault = _value;
         }
     }
 
     public class StarbriteOptionBool : StarbriteOption
     {
         public bool Value;
+        public readonly bool ValueDefault;
         public StarbriteOptionBool(string _name, bool _value, bool _protected, string? _description) : base("bool", _name, _protected, _description)
         {
             Value = _value;
+            ValueDefault = _value;
         }
     }
 
@@ -86,11 +92,6 @@ namespace Preditor
             // system - script related
             _options.Add(new StarbriteOptionString("dirHome", ".", false, "Home data directory"));
             _options.Add(new StarbriteOptionString("fileConfigFilter", "*.ses", false, "Home data directory")); // cofig extension instead? *.ses
-
-
-            // junko
-            _options.Add(new StarbriteOptionString("Server","irc.uncle.moe", false, "The main server to connect to."));
-            _options.Add(new StarbriteOptionInt("Port", 2223, false, "The server port to connect to."));
         }
 
         public int ListConfigFiles()
@@ -140,6 +141,24 @@ namespace Preditor
             return "ERROR: GetOptionValue";
         }
 
+        public string GetOptionValueDefault(StarbriteOption _option)
+        {
+            switch (_option.Type)
+            {
+                case "string":
+                    var os = (StarbriteOptionString)_option;
+                    return os.ValueDefault;
+                case "int":
+                    var oi = (StarbriteOptionInt)_option;
+                    return oi.ValueDefault.ToString();
+                case "bool":
+                    var ob = (StarbriteOptionBool)_option;
+                    return ob.ValueDefault.ToString();
+            }
+
+            return "ERROR: GetOptionValueDefault";
+        }
+
         public StarbriteOption GetOptionByName(string _name)
         {
             return _options.Find(x => x.Name == _name);
@@ -150,9 +169,6 @@ namespace Preditor
             return GetOptionValue(GetOptionByName(_name));  
         }
 
-        public string GetVersionString()
-        {
-            return String.Format("{0} - v{1}.{2}.{3} - \"{4}\"", GetOptionValueByName("engineName"), GetOptionValueByName("versionMajor"), GetOptionValueByName("versionMinor"), GetOptionValueByName("versionRevision"), GetOptionValueByName("versionName"));
-        }
+        
     }
 }
