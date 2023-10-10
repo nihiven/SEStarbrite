@@ -1,7 +1,6 @@
 ﻿using ImGuiNET;
 using Microsoft.Xna.Framework;
 using System.Linq;
-using System.Net.WebSockets;
 using Num = System.Numerics; // vector 2 collision
 
 namespace Preditor
