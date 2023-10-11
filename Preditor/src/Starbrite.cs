@@ -8,14 +8,14 @@ namespace Preditor
     public class Starbrite
     {
         private Stardust _mapper;
+        private StarbriteOptions _options;
 
         private IEnumerable<string> _configFiles;
-        private List<StarbriteOption> _options;
 
         /// <summary>
         ///  publicly exposed
         /// </summary>
-        public List<StarbriteOption> Options => _options;
+        public StarbriteOptions OptionStore => _options;
         public IEnumerable<string> ConfigFileArray => _configFiles;
         // expose some of the hard coded options as properties
         public string VersionString => GetOptionValueByName("versionString");
@@ -28,30 +28,35 @@ namespace Preditor
         public Starbrite() 
         { 
             _configFiles = new string[] { };
-            _options = new List<StarbriteOption>();
+            _options = new StarbriteOptions();
 
-            _mapper = new Stardust();   
+            _mapper = new Stardust();
 
             // system - version
-            _options.Add(new StarbriteOptionString("engineName",    "Starbrite",    true, "Engine name"));
-            _options.Add(new StarbriteOptionString("versionName",   "Aliens",       true, "Engine version code name"));
-            _options.Add(new StarbriteOptionInt("versionMajor",     0,              true, "Engine major version"));
-            _options.Add(new StarbriteOptionInt("versionMinor",     1,              true, "Engine minor version"));
-            _options.Add(new StarbriteOptionInt("versionRevision",  0,              true, "Engine revision version"));
-            _options.Add(new StarbriteOptionBool("betaBuild",       true,           true, "Is this a beta build of Starbrite?"));
-            _options.Add(new StarbriteOptionString(
-                                "versionString",
+            _options.Add("engineName", "Engine name", "Starbrite", true);
+            _options.Add("versionName", "Engine version code name", "Aliens", true);
+            _options.Add("versionMajor", "Engine major version", 0, true);
+            _options.Add("versionMinor", "Engine minor version", 1, true);
+            _options.Add("versionRevision", "Engine revision version", 0, true);
+            _options.Add("betaBuild", "Is this a beta build of Starbrite?", true, true);
+            _options.Add("versionString", 
+                                "Engine version string", 
                                 String.Format("{0} - v{1}.{2}.{3} - \"{4}\"", GetOptionValueByName("engineName"), GetOptionValueByName("versionMajor"), GetOptionValueByName("versionMinor"), GetOptionValueByName("versionRevision"), GetOptionValueByName("versionName")), 
-                                true, 
-                                "Engine version string"));
+                                true);
 
             // system - script related
-            _options.Add(new StarbriteOptionString("dirHome", ".", false, "Home data directory"));
-            _options.Add(new StarbriteOptionString("fileConfigFilter", "*.ses", false, "Home data directory")); // cofig extension instead? *.ses
+            _options.Add("dirHome", "Home data directory", ".", false);
+            _options.Add("fileConfigFilter", "Home data directory", "*.ses", false);
+
+            _options.Add("toggleTest", "Toggle to test Set() implementation", false, false);
+
+            StarbriteOption _testString = _options.Get("toggleTest");
         }
 
         public int ListConfigFiles()
         {
+            _options.Set("toggleTest", true);
+
             _configFiles = new string[] { };
             try
             {
@@ -65,7 +70,7 @@ namespace Preditor
             }
             catch (Exception e)
             {
-
+                Console.WriteLine("The process failed: {0}", e.ToString());
             }
 
             return _configFiles.Count();
@@ -81,6 +86,8 @@ namespace Preditor
 
         public string GetOptionValue(StarbriteOption _option)
         {
+            if (_option == null) return "ERROR: GetOptionValue (null option)";
+
             switch (_option.Type)
             {
                 case "string":
@@ -115,14 +122,9 @@ namespace Preditor
             return "ERROR: GetOptionValueDefault";
         }
 
-        public StarbriteOption GetOptionByName(string _name)
-        {
-            return _options.Find(x => x.Name == _name);
-        }
-
         public string GetOptionValueByName(string _name)
         {
-            return GetOptionValue(GetOptionByName(_name));  
+            return GetOptionValue(_options.Get(_name));  
         }
 
 

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Preditor
 {
@@ -13,21 +11,20 @@ namespace Preditor
         public string Description;
         public readonly bool Protected;
 
-        public StarbriteOption(string _type, string _name, bool _protected, string? _description = "")
+        public StarbriteOption(string _type, string _name, string _description, bool _protected)
         {
             Type = _type;
             Name = _name;
             Description = _description;
             Protected = _protected;
         }
-
     }
 
     public class StarbriteOptionString : StarbriteOption
     {
         public string Value;
         public readonly string ValueDefault;
-        public StarbriteOptionString(string _name, string _value, bool _protected, string? _description) : base("string", _name, _protected, _description)
+        public StarbriteOptionString(string _name, string _description, string _value, bool _protected) : base("string", _name, _description, _protected)
         {
             Value = _value;
             ValueDefault = _value;
@@ -38,7 +35,7 @@ namespace Preditor
     {
         public int Value;
         public readonly int ValueDefault;
-        public StarbriteOptionInt(string _name, int _value, bool _protected, string? _description) : base("int", _name, _protected, _description)
+        public StarbriteOptionInt(string _name, string _description, int _value, bool _protected) : base("int", _name, _description, _protected)
         {
             Value = _value;
             ValueDefault = _value;
@@ -49,7 +46,7 @@ namespace Preditor
     {
         public bool Value;
         public readonly bool ValueDefault;
-        public StarbriteOptionBool(string _name, bool _value, bool _protected, string? _description) : base("bool", _name, _protected, _description)
+        public StarbriteOptionBool(string _name, string _description, bool _value, bool _protected) : base("bool", _name, _description, _protected)
         {
             Value = _value;
             ValueDefault = _value;
@@ -58,8 +55,73 @@ namespace Preditor
 
     public class StarbriteOptions
     {
+        // private stuff
+        private List<StarbriteOption> _options;
+
+        // public stuff
+        public List<StarbriteOption> Options => _options;
+        public StarbriteOption Get(string name) { return _options.Find(x => x.Name == name); }
+
+
         public StarbriteOptions() 
         { 
+            _options = new List<StarbriteOption>();
+        }
+
+        public void Add(string _name, string _description, string _value, bool _protected)
+        {
+            _options.Add(new StarbriteOptionString(_name, _description, _value, _protected));
+        }
+
+        public void Add(string _name, string _description, int _value, bool _protected)
+        {
+            _options.Add(new StarbriteOptionInt(_name, _description, _value, _protected));
+        }
+
+        public void Add(string _name, string _description, bool _value, bool _protected)
+        {
+            _options.Add(new StarbriteOptionBool(_name, _description, _value, _protected));
+        }
+
+        public bool Set(string _name, string _value)
+        {
+            var _option = Get(_name);
+            if (_option != null)
+            {
+                if (_option.Type == "string")
+                {
+                    (_option as StarbriteOptionString).Value = _value;
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool Set(string _name, int _value)
+        {
+            var _option = Get(_name);
+            if (_option != null)
+            {
+                if (_option.Type == "int")
+                {
+                    (_option as StarbriteOptionInt).Value = _value;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool Set(string _name, bool _value)
+        {
+            var _option = Get(_name);
+            if (_option != null)
+            {
+                if (_option.Type == "bool")
+                {
+                    (_option as StarbriteOptionBool).Value = _value;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

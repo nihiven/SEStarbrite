@@ -8,7 +8,6 @@ namespace Preditor
     public class Editor
     {
         private Starbrite _engine;
-        private bool _isRunning = false;
         private bool _showDemoWindow = false;
 
         public Editor(Starbrite engine) 
@@ -66,20 +65,20 @@ namespace Preditor
             ImGui.TableSetColumnIndex(0);
             ImGui.Text("Name");
             ImGui.TableSetColumnIndex(1);
-            ImGui.Text("Description");
-            ImGui.TableSetColumnIndex(2);
             ImGui.Text("Value");
-            ImGui.TableSetColumnIndex(3);
-            ImGui.Text("Type");
-            ImGui.TableSetColumnIndex(4);
-            ImGui.Text("Read Only");
-            ImGui.TableSetColumnIndex(5);
+            ImGui.TableSetColumnIndex(2);
             ImGui.Text("Default Value");
+            ImGui.TableSetColumnIndex(3);
+            ImGui.Text("Description");
+            ImGui.TableSetColumnIndex(4);
+            ImGui.Text("Type");
+            ImGui.TableSetColumnIndex(5);
+            ImGui.Text("Read Only");
             ImGui.TableSetColumnIndex(6);
             ImGui.Text("Edit");
 
             //-------
-            foreach (var option in _engine.Options)
+            foreach (var option in _engine.OptionStore.Options)
             {
                 var _value = _engine.GetOptionValue(option);
                 var _valueDefault = _engine.GetOptionValueDefault(option);
@@ -88,20 +87,19 @@ namespace Preditor
                 ImGui.TableSetColumnIndex(0);
                 ImGui.Text(option.Name);
                 ImGui.TableSetColumnIndex(1);
-                ImGui.Text(option.Description);
-                ImGui.TableSetColumnIndex(2);
                 ImGui.Text(_value);
-                if (_value == _valueDefault) 
+                if (_value != _valueDefault) 
                 {
                     ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, _colorDefault, 2);
                 }
-                
-                ImGui.TableSetColumnIndex(3);
-                ImGui.Text(option.Type);
-                ImGui.TableSetColumnIndex(4);
-                ImGui.Text(option.Protected.ToString());
-                ImGui.TableSetColumnIndex(5);
+                ImGui.TableSetColumnIndex(2);
                 ImGui.Text(_valueDefault);
+                ImGui.TableSetColumnIndex(3);
+                ImGui.Text(option.Description);
+                ImGui.TableSetColumnIndex(4);
+                ImGui.Text(option.Type);
+                ImGui.TableSetColumnIndex(5);
+                ImGui.Text(option.Protected.ToString());
                 ImGui.TableSetColumnIndex(6);
                 ImGui.Text("Edit");
             }
