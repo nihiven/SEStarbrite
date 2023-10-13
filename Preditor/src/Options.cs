@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 
 namespace Preditor
 {
+    // option types
     public class StarbriteOption
     {
         public string Type;
@@ -19,7 +19,6 @@ namespace Preditor
             Protected = _protected;
         }
     }
-
     public class StarbriteOptionString : StarbriteOption
     {
         public string Value;
@@ -30,7 +29,6 @@ namespace Preditor
             ValueDefault = _value;
         }
     }
-
     public class StarbriteOptionInt : StarbriteOption
     {
         public int Value;
@@ -41,7 +39,6 @@ namespace Preditor
             ValueDefault = _value;
         }
     }
-
     public class StarbriteOptionBool : StarbriteOption
     {
         public bool Value;
@@ -52,7 +49,6 @@ namespace Preditor
             ValueDefault = _value;
         }
     }
-
     public class StarbriteOptionFloat : StarbriteOption
     {
         public float Value;
@@ -150,6 +146,8 @@ namespace Preditor
             }
             return false;
         }
-    }
 
+        // get methods
+
+    }
 }

@@ -23,8 +23,6 @@ namespace Preditor
         public string DirHome => GetOptionValueByName("dirHome");
         public string FileConfigFilter => GetOptionValueByName("fileConfigFilter");
 
-        
-
         public Starbrite() 
         { 
             _configFiles = new string[] { };
@@ -47,7 +45,7 @@ namespace Preditor
             // system - script related
             _options.Add("dirHome", "Home data directory", ".", false);
             _options.Add("fileConfigFilter", "Home data directory", "*.ses", false);
-            _options.Add("gameTimeScale", "World timescale, relative to normal time.", 1.0, false);
+            _options.Add("gameTimeScale", "World timescale, relative to normal time.", 1.0f, false);
 
 
 
@@ -103,6 +101,9 @@ namespace Preditor
                 case "bool":
                     var ob = (StarbriteOptionBool)_option;
                     return ob.Value.ToString();
+                case "float":
+                    var of = (StarbriteOptionFloat)_option;
+                    return of.Value.ToString();
             }
 
             return "ERROR: GetOptionValue";
@@ -121,6 +122,9 @@ namespace Preditor
                 case "bool":
                     var ob = (StarbriteOptionBool)_option;
                     return ob.ValueDefault.ToString();
+                case "float":
+                    var of = (StarbriteOptionFloat)_option;
+                    return of.ValueDefault.ToString();
             }
 
             return "ERROR: GetOptionValueDefault";

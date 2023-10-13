@@ -26,7 +26,13 @@ namespace Preditor
         {
             ImGui.Begin("System");
 
-            ImGui.SeparatorText("System Info & Operations");
+            // OPTIONS
+            ImGui.SeparatorText("Option Variables");
+            ShowOptionsTable();
+
+
+            // DEBUG
+            ImGui.SeparatorText("Debug");
 
             if (ImGui.Button("Demo " + (_showDemoWindow ? "Off" : "On"))) _showDemoWindow = !_showDemoWindow;
             if (ImGui.Button("List Config Files")) _engine.ListConfigFiles(); // get file list
@@ -38,7 +44,7 @@ namespace Preditor
 
             ImGui.Text(string.Format("Frame Time: {0:F3}ms / {1:F1} FPS", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
 
-            ShowOptionsTable();
+            
 
             // imgui included demo
             if (_showDemoWindow)
