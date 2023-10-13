@@ -47,7 +47,11 @@ namespace Preditor
             // system - script related
             _options.Add("dirHome", "Home data directory", ".", false);
             _options.Add("fileConfigFilter", "Home data directory", "*.ses", false);
+            _options.Add("gameTimeScale", "World timescale, relative to normal time.", 1.0, false);
 
+
+
+            // test related
             _options.Add("toggleTest", "Toggle to test Set() implementation", false, false);
 
             StarbriteOption _testString = _options.Get("toggleTest");

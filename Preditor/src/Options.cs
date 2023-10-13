@@ -53,6 +53,17 @@ namespace Preditor
         }
     }
 
+    public class StarbriteOptionFloat : StarbriteOption
+    {
+        public float Value;
+        public readonly float ValueDefault;
+        public StarbriteOptionFloat(string _name, string _description, float _value, bool _protected) : base("float", _name, _description, _protected)
+        {
+            Value = _value;
+            ValueDefault = _value;
+        }
+    }
+
     public class StarbriteOptions
     {
         // private stuff
@@ -68,21 +79,25 @@ namespace Preditor
             _options = new List<StarbriteOption>();
         }
 
+        // add overload for each type
         public void Add(string _name, string _description, string _value, bool _protected)
         {
             _options.Add(new StarbriteOptionString(_name, _description, _value, _protected));
         }
-
         public void Add(string _name, string _description, int _value, bool _protected)
         {
             _options.Add(new StarbriteOptionInt(_name, _description, _value, _protected));
         }
-
         public void Add(string _name, string _description, bool _value, bool _protected)
         {
             _options.Add(new StarbriteOptionBool(_name, _description, _value, _protected));
         }
+        public void Add(string _name, string _description, float _value, bool _protected)
+        {
+            _options.Add(new StarbriteOptionFloat(_name, _description, _value, _protected));
+        }
 
+        // set overload for each type
         public bool Set(string _name, string _value)
         {
             var _option = Get(_name);
@@ -109,7 +124,6 @@ namespace Preditor
             }
             return false;
         }
-
         public bool Set(string _name, bool _value)
         {
             var _option = Get(_name);
@@ -118,6 +132,19 @@ namespace Preditor
                 if (_option.Type == "bool")
                 {
                     (_option as StarbriteOptionBool).Value = _value;
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool Set(string _name, float _value)
+        {
+            var _option = Get(_name);
+            if (_option != null)
+            {
+                if (_option.Type == "float")
+                {
+                    (_option as StarbriteOptionFloat).Value = _value;
                     return true;
                 }
             }

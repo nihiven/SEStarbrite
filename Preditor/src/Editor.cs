@@ -5,6 +5,13 @@ using Num = System.Numerics; // vector 2 collision
 
 namespace Preditor
 {
+    class TableColors
+    {
+       public static uint Default => ImGui.GetColorU32(new Num.Vector4(0.16f, 0.16f, 0.3f, 1f));
+       public static uint EditNotSaved => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.5f, 0.0f, 1f));
+       public static uint EditSaved => ImGui.GetColorU32(new Num.Vector4(0.2f, 0.1f, 0.4f, 1f));
+    }
+
     public class Editor
     {
         private Starbrite _engine;
@@ -53,11 +60,6 @@ namespace Preditor
             //ImGui.PushID("Baby Baby");
             var _tableFlags = ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg | ImGuiTableFlags.Reorderable | ImGuiTableFlags.RowBg | ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.NoHostExtendX;
 
-            // colors
-            var _colorDefault = ImGui.GetColorU32(new Num.Vector4(0.16f, 0.16f, 0.3f, 1f));
-            var _colorEditNotSaved = ImGui.GetColorU32(new Num.Vector4(0.0f, 0.5f, 0.0f, 1f));
-            var _colorEditSaved = ImGui.GetColorU32(new Num.Vector4(0.0f, 0.0f, 0.5f, 1f));
-
             ImGui.BeginTable("System", 7, _tableFlags);
 
             // table header
@@ -88,10 +90,6 @@ namespace Preditor
                 ImGui.Text(option.Name);
                 ImGui.TableSetColumnIndex(1);
                 ImGui.Text(_value);
-                if (_value != _valueDefault) 
-                {
-                    ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, _colorDefault, 2);
-                }
                 ImGui.TableSetColumnIndex(2);
                 ImGui.Text(_valueDefault);
                 ImGui.TableSetColumnIndex(3);
@@ -102,6 +100,12 @@ namespace Preditor
                 ImGui.Text(option.Protected.ToString());
                 ImGui.TableSetColumnIndex(6);
                 ImGui.Text("Edit");
+
+                // change cell colors
+                if (_value != _valueDefault)
+                {
+                    ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, TableColors.EditSaved, 1);
+                }
             }
 
 
