@@ -1,15 +1,34 @@
 ﻿using ImGuiNET;
 using Microsoft.Xna.Framework;
 using System.Linq;
-using Num = System.Numerics; // vector 2 collision
+using Num = System.Numerics; // vector2 collision
 
 namespace Preditor
 {
-    class TableColors
+    class ImGuiColors
     {
-       public static uint Default => ImGui.GetColorU32(new Num.Vector4(0.16f, 0.16f, 0.3f, 1f));
-       public static uint EditNotSaved => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.5f, 0.0f, 1f));
-       public static uint EditSaved => ImGui.GetColorU32(new Num.Vector4(0.2f, 0.1f, 0.4f, 1f));
+        public static uint Red => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.0f, 0.0f, 1f));
+        public static uint Blue => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.0f, 1.0f, 1f));
+        public static uint Green => ImGui.GetColorU32(new Num.Vector4(0.0f, 1.0f, 0.0f, 1f));
+        public static uint Yellow => ImGui.GetColorU32(new Num.Vector4(1.0f, 1.0f, 0.0f, 1f));
+        public static uint Orange => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.5f, 0.0f, 1f));
+        public static uint Purple => ImGui.GetColorU32(new Num.Vector4(0.5f, 0.0f, 1.0f, 1f));
+        public static uint Cyan => ImGui.GetColorU32(new Num.Vector4(0.0f, 1.0f, 1.0f, 1f));
+        public static uint Magenta => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.0f, 1.0f, 1f));
+        public static uint White => ImGui.GetColorU32(new Num.Vector4(1.0f, 1.0f, 1.0f, 1f));
+        public static uint Black => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.0f, 0.0f, 1f));
+
+        public static uint LightRed => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.0f, 0.0f, 0.25f));
+        public static uint LightBlue => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.0f, 1.0f, 0.25f));
+        public static uint LightGreen => ImGui.GetColorU32(new Num.Vector4(0.0f, 1.0f, 0.0f, 0.25f));
+        public static uint LightYellow => ImGui.GetColorU32(new Num.Vector4(1.0f, 1.0f, 0.0f, 0.25f));
+        public static uint LightOrange => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.5f, 0.0f, 0.25f));
+        public static uint LightPurple => ImGui.GetColorU32(new Num.Vector4(0.5f, 0.0f, 1.0f, 0.25f));
+        public static uint LightCyan => ImGui.GetColorU32(new Num.Vector4(0.0f, 1.0f, 1.0f, 0.25f));
+        public static uint LightMagenta => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.0f, 1.0f, 0.25f));
+        public static uint LightWhite => ImGui.GetColorU32(new Num.Vector4(1.0f, 1.0f, 1.0f, 0.25f));
+        public static uint LightBlack => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.0f, 0.0f, 0.25f));
+
     }
 
     public class Editor
@@ -44,8 +63,6 @@ namespace Preditor
 
             ImGui.Text(string.Format("Frame Time: {0:F3}ms / {1:F1} FPS", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
 
-            
-
             // imgui included demo
             if (_showDemoWindow)
             {
@@ -59,14 +76,16 @@ namespace Preditor
         public void ShowOptionsTable()
         {
             // keep these in mind
-            var _textWidth = ImGui.CalcTextSize("A").X;
-            var _textHeight = ImGui.GetTextLineHeightWithSpacing();
+            float _textWidth = ImGui.CalcTextSize("A").X;
+            float _textHeight = ImGui.GetTextLineHeightWithSpacing();
 
             // ??
             //ImGui.PushID("Baby Baby");
-            var _tableFlags = ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg | ImGuiTableFlags.Reorderable | ImGuiTableFlags.RowBg | ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.NoHostExtendX;
+            ImGuiTableFlags _tableFlags = ImGuiTableFlags.Borders | ImGuiTableFlags.RowBg | ImGuiTableFlags.Reorderable | ImGuiTableFlags.RowBg | ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.NoHostExtendX;
 
-            ImGui.BeginTable("System", 7, _tableFlags);
+            ImGui.BeginTable("System", 6, _tableFlags);
+
+
 
             // table header
             ImGui.TableHeadersRow();
@@ -82,20 +101,24 @@ namespace Preditor
             ImGui.Text("Type");
             ImGui.TableSetColumnIndex(5);
             ImGui.Text("Read Only");
-            ImGui.TableSetColumnIndex(6);
-            ImGui.Text("Edit");
+            //ImGui.TableSetColumnIndex(6);
+            //ImGui.Text("Edit");
 
             //-------
-            foreach (var option in _engine.OptionStore.Options)
+            foreach (StarbriteOption option in _engine.OptionStore.Options)
             {
-                var _value = _engine.GetOptionValue(option);
-                var _valueDefault = _engine.GetOptionValueDefault(option);
+                string _value = _engine.GetOptionValue(option);
+                string _valueDefault = _engine.GetOptionValueDefault(option);
 
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
                 ImGui.Text(option.Name);
+
+                // make the value editable
                 ImGui.TableSetColumnIndex(1);
                 ImGui.Text(_value);
+
+
                 ImGui.TableSetColumnIndex(2);
                 ImGui.Text(_valueDefault);
                 ImGui.TableSetColumnIndex(3);
@@ -104,13 +127,16 @@ namespace Preditor
                 ImGui.Text(option.Type);
                 ImGui.TableSetColumnIndex(5);
                 ImGui.Text(option.Protected.ToString());
-                ImGui.TableSetColumnIndex(6);
-                ImGui.Text("Edit");
+                
+                //ImGui.TableSetColumnIndex(6);
+
+                // lets get some text editing!
+                //ImGui.Text("Edit");
 
                 // change cell colors
                 if (_value != _valueDefault)
                 {
-                    ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, TableColors.EditSaved, 1);
+                    ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, ImGuiColors.LightGreen, 1);
                 }
             }
 
