@@ -1,35 +1,10 @@
 ﻿using ImGuiNET;
 using Microsoft.Xna.Framework;
 using System.Linq;
-using Num = System.Numerics; // vector2 collision
 
 namespace Preditor
 {
-    class ImGuiColors
-    {
-        public static uint Red => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.0f, 0.0f, 1f));
-        public static uint Blue => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.0f, 1.0f, 1f));
-        public static uint Green => ImGui.GetColorU32(new Num.Vector4(0.0f, 1.0f, 0.0f, 1f));
-        public static uint Yellow => ImGui.GetColorU32(new Num.Vector4(1.0f, 1.0f, 0.0f, 1f));
-        public static uint Orange => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.5f, 0.0f, 1f));
-        public static uint Purple => ImGui.GetColorU32(new Num.Vector4(0.5f, 0.0f, 1.0f, 1f));
-        public static uint Cyan => ImGui.GetColorU32(new Num.Vector4(0.0f, 1.0f, 1.0f, 1f));
-        public static uint Magenta => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.0f, 1.0f, 1f));
-        public static uint White => ImGui.GetColorU32(new Num.Vector4(1.0f, 1.0f, 1.0f, 1f));
-        public static uint Black => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.0f, 0.0f, 1f));
-
-        public static uint LightRed => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.0f, 0.0f, 0.25f));
-        public static uint LightBlue => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.0f, 1.0f, 0.25f));
-        public static uint LightGreen => ImGui.GetColorU32(new Num.Vector4(0.0f, 1.0f, 0.0f, 0.25f));
-        public static uint LightYellow => ImGui.GetColorU32(new Num.Vector4(1.0f, 1.0f, 0.0f, 0.25f));
-        public static uint LightOrange => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.5f, 0.0f, 0.25f));
-        public static uint LightPurple => ImGui.GetColorU32(new Num.Vector4(0.5f, 0.0f, 1.0f, 0.25f));
-        public static uint LightCyan => ImGui.GetColorU32(new Num.Vector4(0.0f, 1.0f, 1.0f, 0.25f));
-        public static uint LightMagenta => ImGui.GetColorU32(new Num.Vector4(1.0f, 0.0f, 1.0f, 0.25f));
-        public static uint LightWhite => ImGui.GetColorU32(new Num.Vector4(1.0f, 1.0f, 1.0f, 0.25f));
-        public static uint LightBlack => ImGui.GetColorU32(new Num.Vector4(0.0f, 0.0f, 0.0f, 0.25f));
-
-    }
+  
 
     public class Editor
     {
@@ -136,7 +111,7 @@ namespace Preditor
                 // change cell colors
                 if (_value != _valueDefault)
                 {
-                    ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, ImGuiColors.LightGreen, 1);
+                    ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, ImGuiColors.LightPink, 1);
                 }
             }
 
