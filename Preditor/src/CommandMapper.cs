@@ -5,20 +5,37 @@ using System.Linq;
 
 namespace Preditor
 {
+    // stardust is the command mapper for Starbrite
+    // stardust takes input as a string, and maps it to a function
+    // stardust will need access to starbrite's internals, such as the option store
     public class Stardust
     {
+        private StarbriteOptions _options;
+
         public List<CommandMapping> _commandMap;
 
-        public Stardust() 
+        public Stardust(StarbriteOptions options) 
         {
+            _options = options;
+
             _commandMap = new List<CommandMapping>();
-            _commandMap.Add(new CommandMapping("jb", cmd_jb));
+
+            // add commands
+            this.Add("jb", cmd_jb); // test command
+
+            ProcessInput("jb is running a test");
         }
 
+        public void Add(string _command, Action<CommandParameter> _function)
+        {
+            _commandMap.Add(new CommandMapping(_command, _function));
+        }
 
+        // create a ProcessInputResult class that contains a bool for success, and a string for error message?
         public bool ProcessInput(string _input)
         {
-            var _command = GetCommandMappingByName(_input.Split(" ").Take(1).ToString());
+            string _commandText = _input.Split(" ")[0];
+            CommandMapping _command = GetCommandMappingByName(_commandText);
 
             if (_command == null)
             {
@@ -36,22 +53,10 @@ namespace Preditor
             return _commandMap.Where(command => command.Command == _name).FirstOrDefault();
         }
 
-        public void MapCommand(string _command, string _parameters)
+        // all internal commands should be private
+        private void cmd_jb(CommandParameter commandParameters)
         {
-
-
-
-        }
-
-
-        /// <summary>
-        ///  Baby's first Console Command
-        /// </summary>
-        /// <param name="_parameters"></param>
-        /// <param name="_test"></param>
-        public void cmd_jb(CommandParameter commandParameters)
-        {
-            Console.WriteLine(commandParameters.ToString());
+            _options.Add("coolCommandTest", "This is being set from cmd_jb", "Sixty niiine!", false);
         }
     }
 
