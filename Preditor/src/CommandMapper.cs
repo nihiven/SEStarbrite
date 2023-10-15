@@ -10,11 +10,11 @@ namespace Preditor
     // stardust will need access to starbrite's internals, such as the option store
     public class Stardust
     {
-        private StarbriteOptions _options;
+        private VariableStore _options;
 
         public List<CommandMapping> _commandMap;
 
-        public Stardust(StarbriteOptions options) 
+        public Stardust(VariableStore options) 
         {
             _options = options;
 

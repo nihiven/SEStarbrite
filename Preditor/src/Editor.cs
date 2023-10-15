@@ -21,7 +21,7 @@ namespace Preditor
             ImGui.Begin("System");
 
             // OPTIONS
-            ImGui.SeparatorText("Option Variables");
+            ImGui.SeparatorText("Starbrite Variables");
             ShowOptionsTable();
 
 
@@ -80,14 +80,14 @@ namespace Preditor
             //ImGui.Text("Edit");
 
             //-------
-            foreach (StarbriteOption option in _engine.OptionStore.Options)
+            foreach (Variable variable in _engine.VariableStore.Variables)
             {
-                string _value = _engine.GetOptionValue(option);
-                string _valueDefault = _engine.GetOptionValueDefault(option);
+                string _value = _engine.GetVariableValue(variable);
+                string _valueDefault = _engine.GetVariableValueDefault(variable);
 
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
-                ImGui.Text(option.Name);
+                ImGui.Text(variable.Name);
 
                 // make the value editable
                 ImGui.TableSetColumnIndex(1);
@@ -97,11 +97,11 @@ namespace Preditor
                 ImGui.TableSetColumnIndex(2);
                 ImGui.Text(_valueDefault);
                 ImGui.TableSetColumnIndex(3);
-                ImGui.Text(option.Description);
+                ImGui.Text(variable.Description);
                 ImGui.TableSetColumnIndex(4);
-                ImGui.Text(option.Type);
+                ImGui.Text(variable.Type);
                 ImGui.TableSetColumnIndex(5);
-                ImGui.Text(option.Protected.ToString());
+                ImGui.Text(variable.Protected.ToString());
                 
                 //ImGui.TableSetColumnIndex(6);
 

@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
-
+using System.Linq;
 
 namespace Preditor
 {
     // option types
-    public class StarbriteOption
+    public class Variable
     {
         public string Type;
         public string Name;
         public string Description;
         public readonly bool Protected;
 
-        public StarbriteOption(string _type, string _name, string _description, bool _protected)
+        public Variable(string _type, string _name, string _description, bool _protected)
         {
             Type = _type;
             Name = _name;
@@ -19,78 +19,78 @@ namespace Preditor
             Protected = _protected;
         }
     }
-    public class StarbriteOptionString : StarbriteOption
+    public class VariableString : Variable
     {
         public string Value;
         public readonly string ValueDefault;
-        public StarbriteOptionString(string _name, string _description, string _value, bool _protected) : base("string", _name, _description, _protected)
+        public VariableString(string _name, string _description, string _value, bool _protected) : base("string", _name, _description, _protected)
         {
             Value = _value;
             ValueDefault = _value;
         }
     }
-    public class StarbriteOptionInt : StarbriteOption
+    public class VariableInt : Variable
     {
         public int Value;
         public readonly int ValueDefault;
-        public StarbriteOptionInt(string _name, string _description, int _value, bool _protected) : base("int", _name, _description, _protected)
+        public VariableInt(string _name, string _description, int _value, bool _protected) : base("int", _name, _description, _protected)
         {
             Value = _value;
             ValueDefault = _value;
         }
     }
-    public class StarbriteOptionBool : StarbriteOption
+    public class VariableBool : Variable
     {
         public bool Value;
         public readonly bool ValueDefault;
-        public StarbriteOptionBool(string _name, string _description, bool _value, bool _protected) : base("bool", _name, _description, _protected)
+        public VariableBool(string _name, string _description, bool _value, bool _protected) : base("bool", _name, _description, _protected)
         {
             Value = _value;
             ValueDefault = _value;
         }
     }
-    public class StarbriteOptionFloat : StarbriteOption
+    public class VariableFloat : Variable
     {
         public float Value;
         public readonly float ValueDefault;
-        public StarbriteOptionFloat(string _name, string _description, float _value, bool _protected) : base("float", _name, _description, _protected)
+        public VariableFloat(string _name, string _description, float _value, bool _protected) : base("float", _name, _description, _protected)
         {
             Value = _value;
             ValueDefault = _value;
         }
     }
 
-    public class StarbriteOptions
+    public class VariableStore
     {
         // private stuff
-        private List<StarbriteOption> _options;
+        private List<Variable> _variables;
 
         // public stuff
-        public List<StarbriteOption> Options => _options;
-        public StarbriteOption Get(string name) { return _options.Find(x => x.Name == name); }
+        public List<Variable> Variables => _variables; // rename to All()?
+        public Variable Get(string name) { return _variables.Find(x => x.Name == name); }
 
 
-        public StarbriteOptions() 
+        public VariableStore() 
         { 
-            _options = new List<StarbriteOption>();
+            _variables = new List<Variable>();
         }
 
         // add overload for each type
         public void Add(string _name, string _description, string _value, bool _protected)
         {
-            _options.Add(new StarbriteOptionString(_name, _description, _value, _protected));
+            _variables.Add(new VariableString(_name, _description, _value, _protected));
         }
         public void Add(string _name, string _description, int _value, bool _protected)
         {
-            _options.Add(new StarbriteOptionInt(_name, _description, _value, _protected));
+            _variables.Add(new VariableInt(_name, _description, _value, _protected));
         }
         public void Add(string _name, string _description, bool _value, bool _protected)
         {
-            _options.Add(new StarbriteOptionBool(_name, _description, _value, _protected));
+            _variables.Add(new VariableBool(_name, _description, _value, _protected));
         }
         public void Add(string _name, string _description, float _value, bool _protected)
         {
-            _options.Add(new StarbriteOptionFloat(_name, _description, _value, _protected));
+            _variables.Add(new VariableFloat(_name, _description, _value, _protected));
         }
 
         // set overload for each type
@@ -101,7 +101,7 @@ namespace Preditor
             {
                 if (_option.Type == "string")
                 {
-                    (_option as StarbriteOptionString).Value = _value;
+                    (_option as VariableString).Value = _value;
                     return true;
                 }
             }
@@ -114,7 +114,7 @@ namespace Preditor
             {
                 if (_option.Type == "int")
                 {
-                    (_option as StarbriteOptionInt).Value = _value;
+                    (_option as VariableInt).Value = _value;
                     return true;
                 }
             }
@@ -127,7 +127,7 @@ namespace Preditor
             {
                 if (_option.Type == "bool")
                 {
-                    (_option as StarbriteOptionBool).Value = _value;
+                    (_option as VariableBool).Value = _value;
                     return true;
                 }
             }
@@ -140,7 +140,7 @@ namespace Preditor
             {
                 if (_option.Type == "float")
                 {
-                    (_option as StarbriteOptionFloat).Value = _value;
+                    (_option as VariableFloat).Value = _value;
                     return true;
                 }
             }

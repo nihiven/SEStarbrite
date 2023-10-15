@@ -3,58 +3,62 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+// ?
+// https://learn-monogame.github.io/how-to/automate-release/
+
 namespace Preditor
 {
     public class Starbrite
     {
+        // engine components
+        private Starscream _scripting;
         private Stardust _mapper;
-        private StarbriteOptions _options;
+        private VariableStore _variables;
+
+        // move to starscream
         private List<string> _configFiles;
 
-        public StarbriteOptions OptionStore => _options;
+        // accessors
+        public List<Variable> Variables => _variables.Variables;
         public List<string> ConfigFileArray => _configFiles;
 
         // expose some of the hard coded options as properties
-        public string VersionString => GetOptionValueByName("versionString");
-        public string IsBeta => GetOptionValueByName("betaBuild");
-        public string DirHome => GetOptionValueByName("dirHome");
-        public string FileConfigFilter => GetOptionValueByName("fileConfigFilter");
+        public string VersionString => GetVariableValueByName("versionString");
+        public string IsBeta => GetVariableValueByName("betaBuild");
+        public string DirHome => GetVariableValueByName("dirHome");
+        public string FileConfigFilter => GetVariableValueByName("fileConfigFilter");
 
         public Starbrite() 
         { 
             _configFiles = new List<string>();
-            _options = new StarbriteOptions();
-
-            _mapper = new Stardust(_options);
+            _variables = new VariableStore();
+            _mapper = new Stardust(_variables);
 
             // system - version
-            _options.Add("engineName", "Engine name", "Starbrite", true);
-            _options.Add("versionName", "Engine version code name", "Aliens", true);
-            _options.Add("versionMajor", "Engine major version", 0, true);
-            _options.Add("versionMinor", "Engine minor version", 1, true);
-            _options.Add("versionRevision", "Engine revision version", 0, true);
-            _options.Add("betaBuild", "Is this a beta build of Starbrite?", true, true);
-            _options.Add("versionString", 
+            _variables.Add("engineName", "Engine name", "Starbrite", true);
+            _variables.Add("versionName", "Engine version code name", "Aliens", true);
+            _variables.Add("versionMajor", "Engine major version", 0, true);
+            _variables.Add("versionMinor", "Engine minor version", 1, true);
+            _variables.Add("versionRevision", "Engine revision version", 0, true);
+            _variables.Add("betaBuild", "Is this a beta build of Starbrite?", true, true);
+            _variables.Add("versionString", 
                                 "Engine version string", 
-                                String.Format("{0} - v{1}.{2}.{3} - \"{4}\"", GetOptionValueByName("engineName"), GetOptionValueByName("versionMajor"), GetOptionValueByName("versionMinor"), GetOptionValueByName("versionRevision"), GetOptionValueByName("versionName")), 
+                                String.Format("{0} - v{1}.{2}.{3} - \"{4}\"", GetVariableValueByName("engineName"), GetVariableValueByName("versionMajor"), GetVariableValueByName("versionMinor"), GetVariableValueByName("versionRevision"), GetVariableValueByName("versionName")), 
                                 true);
 
             // system - script related
-            _options.Add("dirHome", "Home data directory", ".", false);
-            _options.Add("fileConfigFilter", "Home data directory", "*.ses", false);
-            _options.Add("gameTimeScale", "World timescale, relative to normal time.", 1.0f, false);
-
+            _variables.Add("dirHome", "Home data directory", ".", false);
+            _variables.Add("fileConfigFilter", "Home data directory", "*.ses", false);
+            _variables.Add("gameTimeScale", "World timescale, relative to normal time.", 1.0f, false);
 
 
             // test related
-            _options.Add("toggleTest", "Toggle to test Set() implementation", false, false);
-
-            StarbriteOption _testString = _options.Get("toggleTest");
+            _variables.Add("toggleTest", "Toggle to test Set() implementation", false, false);
         }
 
         public int ListConfigFiles()
         {
-            _options.Set("toggleTest", true);
+            _variables.Set("toggleTest", true);
 
             try
             {
@@ -82,53 +86,53 @@ namespace Preditor
             }
         }
 
-        public string GetOptionValue(StarbriteOption _option)
+        public string GetVariableValue(Variable variable)
         {
-            if (_option == null) return "ERROR: GetOptionValue (null option)";
+            if (variable == null) return "ERROR: GetOptionValue (null option)";
 
-            switch (_option.Type)
+            switch (variable.Type)
             {
                 case "string":
-                    var os = (StarbriteOptionString)_option;
+                    var os = (VariableString)variable;
                     return os.Value;
                 case "int":
-                    var oi = (StarbriteOptionInt)_option;
+                    var oi = (VariableInt)variable;
                     return oi.Value.ToString();
                 case "bool":
-                    var ob = (StarbriteOptionBool)_option;
+                    var ob = (VariableBool)variable;
                     return ob.Value.ToString();
                 case "float":
-                    var of = (StarbriteOptionFloat)_option;
+                    var of = (VariableFloat)variable;
                     return of.Value.ToString();
             }
 
             return "ERROR: GetOptionValue";
         }
 
-        public string GetOptionValueDefault(StarbriteOption _option)
+        public string GetVariableValueDefault(Variable variable)
         {
-            switch (_option.Type)
+            switch (variable.Type)
             {
                 case "string":
-                    var os = (StarbriteOptionString)_option;
+                    var os = (VariableString)variable;
                     return os.ValueDefault;
                 case "int":
-                    var oi = (StarbriteOptionInt)_option;
+                    var oi = (VariableInt)variable;
                     return oi.ValueDefault.ToString();
                 case "bool":
-                    var ob = (StarbriteOptionBool)_option;
+                    var ob = (VariableBool)variable;
                     return ob.ValueDefault.ToString();
                 case "float":
-                    var of = (StarbriteOptionFloat)_option;
+                    var of = (VariableFloat)variable;
                     return of.ValueDefault.ToString();
             }
 
             return "ERROR: GetOptionValueDefault";
         }
 
-        public string GetOptionValueByName(string _name)
+        public string GetVariableValueByName(string _name)
         {
-            return GetOptionValue(_options.Get(_name));  
+            return GetVariableValue(_variables.Get(_name));  
         }
 
 
