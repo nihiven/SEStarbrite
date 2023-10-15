@@ -9,14 +9,11 @@ namespace Preditor
     {
         private Stardust _mapper;
         private StarbriteOptions _options;
+        private List<string> _configFiles;
 
-        private IEnumerable<string> _configFiles;
-
-        /// <summary>
-        ///  publicly exposed
-        /// </summary>
         public StarbriteOptions OptionStore => _options;
-        public IEnumerable<string> ConfigFileArray => _configFiles;
+        public List<string> ConfigFileArray => _configFiles;
+
         // expose some of the hard coded options as properties
         public string VersionString => GetOptionValueByName("versionString");
         public string IsBeta => GetOptionValueByName("betaBuild");
@@ -25,10 +22,10 @@ namespace Preditor
 
         public Starbrite() 
         { 
-            _configFiles = new string[] { };
+            _configFiles = new List<string>();
             _options = new StarbriteOptions();
 
-            _mapper = new Stardust();
+            _mapper = new Stardust(_options);
 
             // system - version
             _options.Add("engineName", "Engine name", "Starbrite", true);
@@ -59,7 +56,6 @@ namespace Preditor
         {
             _options.Set("toggleTest", true);
 
-            _configFiles = new string[] { };
             try
             {
                 // enumerate home directory for .ses files
@@ -67,7 +63,7 @@ namespace Preditor
 
                 foreach (string _currentFile in _searchFiles)
                 {
-                    _configFiles = _configFiles.Append(_currentFile);
+                    _configFiles.Add(_currentFile);
                 }
             }
             catch (Exception e)
