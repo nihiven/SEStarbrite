@@ -1,5 +1,5 @@
 # Hello!
-Welcome to Starbrite, a monogame based game engine, written in C# (.NET 6). Starbrite comes with a built in editor (ImGui based) that can be used to create content for Starbrite, such as a game. Starbrite is a work in progress.
+Welcome to Starbrite, a monogame based game engine, written in C# (.NET 6). Starbrite comes with a built in editor (ImGui based) that can be used to create content for Starbrite. Starbrite is a work in progress.
 
 ## Engine Components
 Engine -> Starbrite
