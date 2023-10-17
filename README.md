@@ -3,8 +3,11 @@ Welcome to Starbrite, a monogame based game engine, written in C# (.NET 6). Star
 
 ## Engine Components
 Engine -> Starbrite
+
 Scripting -> Starscream: The portion of Starbrite that can read an understand .ses and .lua scripts. 
+
 API(?) -> Stardust: The portion of Starbrite that exposes Starbrite data and functionality through a Lua scripting interface.
+
 
 ---
 ![Starbrite](/Preditor/Content/starbrite-logo.png)
