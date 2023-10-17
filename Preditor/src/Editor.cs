@@ -4,8 +4,6 @@ using System.Linq;
 
 namespace Preditor
 {
-  
-
     public class Editor
     {
         private Starbrite _engine;
