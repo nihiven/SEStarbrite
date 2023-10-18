@@ -6,7 +6,7 @@ Engine -> Starbrite
 
 Scripting -> Stardust: The portion of Starbrite that can read an understand .ses and .lua (using moonsharp) scripts. 
 
-API(?) -> Starscream: The portion of Starbrite that exposes Starbrite data and functionality through a Lua scripting interface.
+API -> Starscream: The portion of Starbrite that exposes Starbrite data and functionality through a Lua scripting interface.
 
 
 ---
