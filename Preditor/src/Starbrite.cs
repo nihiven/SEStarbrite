@@ -11,8 +11,8 @@ namespace Preditor
     public class Starbrite
     {
         // engine components
-        private Starscream _scripting;
-        private Stardust _api;
+        private Stardust _scripting;
+        private Starscream _api;
         private VariableStore _variables;
 
         // move to starscream
@@ -32,7 +32,7 @@ namespace Preditor
         { 
             _configFiles = new List<string>();
             _variables = new VariableStore();
-            _api = new Stardust(_variables);
+            _api = new Starscream(_variables);
 
             // system - version
             _variables.Add("engineName", "Engine name", "Starbrite", true);

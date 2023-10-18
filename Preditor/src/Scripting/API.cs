@@ -31,14 +31,14 @@ namespace Preditor
     // stardust is the command mapper for Starbrite
     // stardust takes input as a string, and maps it to a function
     // stardust will need access to starbrite's internals, such as the option store
-    public class Stardust
+    public class Starscream
     {
         private VariableStore _options;
         private ScriptFunctions _functions;
             
         public List<CommandMapping> _commandMap;
 
-        public Stardust(VariableStore options) 
+        public Starscream(VariableStore options) 
         {
             _options = options;
 
@@ -47,6 +47,7 @@ namespace Preditor
 
             // add commands
             this.Add("jb", _functions.cmd_jb); // test command
+            this.Add("set", _functions.cmd_set);
 
             ProcessInput("jb is running a test");
         }
@@ -57,6 +58,7 @@ namespace Preditor
         }
 
         // create a ProcessInputResult class that contains a bool for success, and a string for error message?
+        // shoud go in starscream
         public bool ProcessInput(string _input)
         {
             string _commandText = _input.Split(" ")[0];

@@ -13,8 +13,8 @@
 
 cEditor (editor)
  - cStarbrite (engine)
-  - cStarscream (scripting)
-  - cStardust (_mapper)
+  - cStarscream (API)
+  - cStardust (scripting)
    - cScriptFunctions
   - cVariableStore
 
@@ -24,6 +24,6 @@ Preditor
  Editor
  Scripting
   Functions
- Mapper -> API?
+ API
 
 .....
