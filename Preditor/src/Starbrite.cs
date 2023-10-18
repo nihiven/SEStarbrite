@@ -32,6 +32,7 @@ namespace Preditor
         { 
             _configFiles = new List<string>();
             _variables = new VariableStore();
+            _scripting = new Stardust(_variables);
             _api = new Starscream(_variables);
 
             // system - version

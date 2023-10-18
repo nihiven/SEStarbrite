@@ -24,6 +24,7 @@
     <PackageReference Include="ImGui.NET" Version="1.89.9.2" />
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
+    <PackageReference Include="AvalonLua.MoonSharp" Version="2023.7.21.1" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\Scripting\" />
