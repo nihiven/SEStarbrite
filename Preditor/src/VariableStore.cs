@@ -75,6 +75,7 @@ namespace Preditor
             _variables = new List<Variable>();
         }
 
+        //  TODO: remove add and update set to create variables
         // add overload for each type
         public void Add(string _name, string _description, string _value, bool _protected)
         {

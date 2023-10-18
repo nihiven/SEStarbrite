@@ -1,4 +1,6 @@
-﻿* Variable naming
+﻿* Let's get Lua running before we get too far into coding the API
+
+* Variable naming
  - do variables even need types?
  - do we give an option to display variable names with a type indicator?
   -- coolVarl -> coolVar[int] coolVar[bool] coolVar[string] coolVar[float]

@@ -15,6 +15,11 @@ namespace Preditor
         {
             _options.Add("coolCommandTest", "This is being set from cmd_jb", "Sixty niiine!", false);
         }
+
+        public void cmd_set(CommandParameter commandParameter)
+        {
+            _options.Set(commandParameter._parametersSplit[1], commandParameter._parametersSplit[2]);
+        }
     }
 
 }
