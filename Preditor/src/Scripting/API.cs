@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,6 +41,8 @@ namespace Preditor
 
         public Starscream(VariableStore options) 
         {
+            Log.Debug("Starscream startup");
+
             _options = options;
 
             _functions = new ScriptFunctions(_options);

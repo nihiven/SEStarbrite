@@ -78,19 +78,23 @@ namespace Preditor
         // add overload for each type
         public void Add(string _name, string _description, string _value, bool _protected)
         {
-            _variables.Add(new VariableString(_name, _description, _value, _protected));
+            if (Get(_name) == null)
+                _variables.Add(new VariableString(_name, _description, _value, _protected));
         }
         public void Add(string _name, string _description, int _value, bool _protected)
         {
-            _variables.Add(new VariableInt(_name, _description, _value, _protected));
+            if (Get(_name) == null)
+                _variables.Add(new VariableInt(_name, _description, _value, _protected));
         }
         public void Add(string _name, string _description, bool _value, bool _protected)
         {
-            _variables.Add(new VariableBool(_name, _description, _value, _protected));
+            if (Get(_name) == null)
+                _variables.Add(new VariableBool(_name, _description, _value, _protected));
         }
         public void Add(string _name, string _description, float _value, bool _protected)
         {
-            _variables.Add(new VariableFloat(_name, _description, _value, _protected));
+            if (Get(_name) == null)
+                _variables.Add(new VariableFloat(_name, _description, _value, _protected));
         }
 
         // set overload for each type
@@ -147,7 +151,58 @@ namespace Preditor
             return false;
         }
 
-        // get methods
+
+        public string GetVariableValue(Variable variable)
+        {
+            if (variable == null) return "ERROR: GetOptionValue (null option)";
+
+            switch (variable.Type)
+            {
+                case "string":
+                    var os = (VariableString)variable;
+                    return os.Value;
+                case "int":
+                    var oi = (VariableInt)variable;
+                    return oi.Value.ToString();
+                case "bool":
+                    var ob = (VariableBool)variable;
+                    return ob.Value.ToString();
+                case "float":
+                    var of = (VariableFloat)variable;
+                    return of.Value.ToString();
+            }
+
+            return "ERROR: GetOptionValue";
+        }
+
+        public string GetVariableValueDefault(Variable variable)
+        {
+            switch (variable.Type)
+            {
+                case "string":
+                    var os = (VariableString)variable;
+                    return os.ValueDefault;
+                case "int":
+                    var oi = (VariableInt)variable;
+                    return oi.ValueDefault.ToString();
+                case "bool":
+                    var ob = (VariableBool)variable;
+                    return ob.ValueDefault.ToString();
+                case "float":
+                    var of = (VariableFloat)variable;
+                    return of.ValueDefault.ToString();
+            }
+
+            return "ERROR: GetOptionValueDefault";
+        }
+
+        public string GetVariableValueByName(string _name)
+        {
+            return GetVariableValue(Get(_name));
+        }
+
 
     }
+
+
 }

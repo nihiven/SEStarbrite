@@ -1,6 +1,4 @@
-﻿* Let's get Lua running before we get too far into coding the API
-
-* Variable naming
+﻿* Variable naming
  - do variables even need types?
  - do we give an option to display variable names with a type indicator?
   -- coolVarl -> coolVar[int] coolVar[bool] coolVar[string] coolVar[float]
@@ -10,7 +8,12 @@
  - need to be able to reference variables in a script/command -> {coolVar} ?
 
 * Namespaces and class names need some touching up.
+* Option Store is one thing, Variable Store is another.
+* How do we pass all of our variables to Lua?
 
+
+
+---
 cEditor (editor)
  - cStarbrite (engine)
   - cStarscream (API)
@@ -26,4 +29,7 @@ Preditor
   Functions
  API
 
-.....
+
+ ---
+Done...
+* Let's get Lua running before we get too far into coding the API

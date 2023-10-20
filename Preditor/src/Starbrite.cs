@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,18 +23,30 @@ namespace Preditor
         public List<Variable> Variables => _variables.Variables;
         public List<string> ConfigFileArray => _configFiles;
 
+        // Testing
+        public void LuaTest() => _scripting.MoonTest();
+        public string GetVariableValue(Variable variable) => _variables.GetVariableValue(variable);
+
         // expose some of the hard coded options as properties
-        public string VersionString => GetVariableValueByName("versionString");
-        public string IsBeta => GetVariableValueByName("betaBuild");
-        public string DirHome => GetVariableValueByName("dirHome");
-        public string FileConfigFilter => GetVariableValueByName("fileConfigFilter");
+        public string VersionString => _variables.GetVariableValueByName("versionString");
+        public string IsBeta => _variables.GetVariableValueByName("betaBuild");
+        public string DirHome => _variables.GetVariableValueByName("dirHome");
+        public string FileConfigFilter => _variables.GetVariableValueByName("fileConfigFilter");
 
         public Starbrite() 
-        { 
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+
+            Log.Debug("Starbrite startup");
+
             _configFiles = new List<string>();
             _variables = new VariableStore();
             _scripting = new Stardust(_variables);
             _api = new Starscream(_variables);
+
 
             // system - version
             _variables.Add("engineName", "Engine name", "Starbrite", true);
@@ -44,7 +57,7 @@ namespace Preditor
             _variables.Add("betaBuild", "Is this a beta build of Starbrite?", true, true);
             _variables.Add("versionString", 
                                 "Engine version string", 
-                                String.Format("{0} - v{1}.{2}.{3} - \"{4}\"", GetVariableValueByName("engineName"), GetVariableValueByName("versionMajor"), GetVariableValueByName("versionMinor"), GetVariableValueByName("versionRevision"), GetVariableValueByName("versionName")), 
+                                String.Format("{0} - v{1}.{2}.{3} - \"{4}\"", _variables.GetVariableValueByName("engineName"), _variables.GetVariableValueByName("versionMajor"), _variables.GetVariableValueByName("versionMinor"), _variables.GetVariableValueByName("versionRevision"), _variables.GetVariableValueByName("versionName")), 
                                 true);
 
             // system - script related
@@ -68,6 +81,7 @@ namespace Preditor
 
                 foreach (string _currentFile in _searchFiles)
                 {
+                    Log.Debug("Found config file: {0}", _currentFile);
                     _configFiles.Add(_currentFile);
                 }
             }
@@ -86,56 +100,6 @@ namespace Preditor
 
             }
         }
-
-        public string GetVariableValue(Variable variable)
-        {
-            if (variable == null) return "ERROR: GetOptionValue (null option)";
-
-            switch (variable.Type)
-            {
-                case "string":
-                    var os = (VariableString)variable;
-                    return os.Value;
-                case "int":
-                    var oi = (VariableInt)variable;
-                    return oi.Value.ToString();
-                case "bool":
-                    var ob = (VariableBool)variable;
-                    return ob.Value.ToString();
-                case "float":
-                    var of = (VariableFloat)variable;
-                    return of.Value.ToString();
-            }
-
-            return "ERROR: GetOptionValue";
-        }
-
-        public string GetVariableValueDefault(Variable variable)
-        {
-            switch (variable.Type)
-            {
-                case "string":
-                    var os = (VariableString)variable;
-                    return os.ValueDefault;
-                case "int":
-                    var oi = (VariableInt)variable;
-                    return oi.ValueDefault.ToString();
-                case "bool":
-                    var ob = (VariableBool)variable;
-                    return ob.ValueDefault.ToString();
-                case "float":
-                    var of = (VariableFloat)variable;
-                    return of.ValueDefault.ToString();
-            }
-
-            return "ERROR: GetOptionValueDefault";
-        }
-
-        public string GetVariableValueByName(string _name)
-        {
-            return GetVariableValue(_variables.Get(_name));  
-        }
-
 
     }
 }

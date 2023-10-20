@@ -1,4 +1,7 @@
 ﻿using MoonSharp.Interpreter;
+using Serilog;
+using System;
+using System.Collections.Generic;
 
 namespace Preditor
 {
@@ -9,33 +12,43 @@ namespace Preditor
 
         public Stardust(VariableStore variables)
         {
+            Log.Debug("Stardust startup");
+
             // use CoreModules to limit Lua access to features
             // CoreModules modules = CoreModules.Basic
             // then pass them to Script
 
             _variables = variables;
-            _script = new Script();
+            
+            luaSetup();
         }
 
-        public void moonTest()
+        private void luaSetup()
         {
+            // setup lua options
+            Script.DefaultOptions.DebugPrint = s => Log.Debug(s);
+
+            // our API script instance
+            _script = new Script();
+
+
+            // bind functions to lua script calls
+            _script.Globals["add"] = (Action<string, string, string, bool>)_variables.Add;
+            _script.Globals["set"] = (Func<string, string, bool>)_variables.Set;
+
             string scriptCode = @"    
-        -- defines a factorial function
-        function fact (n)
-            if (n == 0) then
-                return 1
-            else
-                return n * fact(n - 1);
-            end
-        end";
+        function dust(str)
+            add('luaVar', 'this was set in lua', 'STARSCREAM', false)
+            set('luaVar', str)
+            print('eat a burger')
+        end
+";
+            _script.DoString(scriptCode);
+        }
 
-            Script script = new Script();
-
-            script.DoString(scriptCode);
-
-            DynValue res = script.Call(script.Globals["fact"], 4);
-
-            return res.Number;
+        public void MoonTest()
+        {
+            _script.Call(_script.Globals["dust"], "called from MoonTest()");
         }
     }
 }

@@ -26,6 +26,13 @@ namespace Preditor
             // DEBUG
             ImGui.SeparatorText("Debug");
 
+            if (ImGui.Button("Run Lua Test"))
+            {
+
+                _engine.LuaTest();
+            }
+
+
             if (ImGui.Button("Demo " + (_showDemoWindow ? "Off" : "On"))) _showDemoWindow = !_showDemoWindow;
             if (ImGui.Button("List Config Files")) _engine.ListConfigFiles(); // get file list
 
@@ -81,7 +88,7 @@ namespace Preditor
             foreach (Variable variable in _engine.Variables)
             {
                 string _value = _engine.GetVariableValue(variable);
-                string _valueDefault = _engine.GetVariableValueDefault(variable);
+                string _valueDefault = _engine.GetVariableValue(variable);
 
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);
