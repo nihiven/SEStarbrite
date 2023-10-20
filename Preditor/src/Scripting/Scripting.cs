@@ -26,7 +26,7 @@ namespace Preditor
         private void luaSetup()
         {
             // setup lua options
-            Script.DefaultOptions.DebugPrint = s => Log.Debug(s);
+            Script.DefaultOptions.DebugPrint = s => Log.Debug("[LUA] " + s);
 
             // our API script instance
             _script = new Script();
