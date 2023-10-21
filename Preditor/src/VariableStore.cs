@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Serilog;
+using System.Collections.Generic;
 
 namespace Preditor
 {
@@ -70,7 +71,9 @@ namespace Preditor
 
 
         public VariableStore() 
-        { 
+        {
+            Log.Debug("VariableStore startup");
+
             _variables = new List<Variable>();
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Serilog;
 
 namespace Preditor
 {
@@ -16,6 +17,8 @@ namespace Preditor
 
         public Host()
         {
+            Log.Debug("Host startup");
+
             // gfx config
             _graphics = new GraphicsDeviceManager(this);
             _graphics.PreferredBackBufferWidth = 1920;

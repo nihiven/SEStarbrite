@@ -32,7 +32,8 @@ namespace Preditor
                 _engine.LuaTest();
             }
 
-
+            // TODO: this whole section is broken while we move scripting relation functions to Stardust
+            /*
             if (ImGui.Button("Demo " + (_showDemoWindow ? "Off" : "On"))) _showDemoWindow = !_showDemoWindow;
             if (ImGui.Button("List Config Files")) _engine.ListConfigFiles(); // get file list
 
@@ -42,6 +43,7 @@ namespace Preditor
             }
 
             ImGui.Text(string.Format("Frame Time: {0:F3}ms / {1:F1} FPS", 1000f / ImGui.GetIO().Framerate, ImGui.GetIO().Framerate));
+            */
 
             // imgui included demo
             if (_showDemoWindow)
@@ -87,8 +89,8 @@ namespace Preditor
             //-------
             foreach (Variable variable in _engine.Variables)
             {
-                string _value = _engine.GetVariableValue(variable);
-                string _valueDefault = _engine.GetVariableValue(variable);
+                string _value = _engine.GetVariable(variable);
+                string _valueDefault = _engine.GetVariable(variable);
 
                 ImGui.TableNextRow();
                 ImGui.TableSetColumnIndex(0);

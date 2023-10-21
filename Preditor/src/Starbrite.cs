@@ -21,7 +21,10 @@ namespace Preditor
 
         // Testing
         public void LuaTest() => _scripting.MoonTest();
-        public string GetVariableValue(Variable variable) => _variables.GetVariableValue(variable);
+
+        // expose variables
+        public string GetVariable(Variable variable) => _variables.GetVariableValue(variable);
+        public string GetVariable(string name) => _variables.GetVariableValueByName(name);
 
         // expose some of the hard coded options as properties
         public string VersionString => _variables.GetVariableValueByName("versionString");
@@ -38,6 +41,7 @@ namespace Preditor
 
             Log.Debug("Starbrite startup");
 
+            // component objects
             _variables = new VariableStore();
             _scripting = new Stardust(this, _variables);
             _api = new Starscream(_variables);
@@ -64,8 +68,5 @@ namespace Preditor
             // test related
             _variables.Add("toggleTest", "Toggle to test Set() implementation", false, false);
         }
-
-
-
     }
 }

@@ -14,6 +14,9 @@ namespace Preditor
         private Starbrite _engine;
         private VariableStore _variables;
 
+        // scan and storage
+        private List<string> Scripts;
+
         public Stardust(Starbrite engine, VariableStore variables)
         {
             Log.Debug("Stardust startup");
@@ -23,6 +26,9 @@ namespace Preditor
             // then pass them to Script
             _engine = engine;
             _variables = variables;
+
+            // startup
+            Scripts = new List<string>();
             
             luaSetup();
         }
@@ -62,12 +68,12 @@ namespace Preditor
             try
             {
                 // enumerate home directory for .ses files
-                var _searchFiles = Directory.EnumerateFiles(DirHome, FileConfigFilter, SearchOption.AllDirectories);
+                var _searchFiles = Directory.EnumerateFiles(_engine.DirHome, _engine.FileConfigFilter, SearchOption.AllDirectories);
 
                 foreach (string _currentFile in _searchFiles)
                 {
                     Log.Debug("Found config file: {0}", _currentFile);
-                    _configFiles.Add(_currentFile);
+                    Scripts.Add(_currentFile);
                 }
             }
             catch (Exception e)
@@ -75,12 +81,12 @@ namespace Preditor
                 Console.WriteLine("The process failed: {0}", e.ToString());
             }
 
-            return _configFiles.Count();
+            return Scripts.Count;
         }
 
         public void ScanConfigFiles()
         {
-            foreach (var file in ConfigFileArray)
+            foreach (var file in Scripts)
             {
 
             }
