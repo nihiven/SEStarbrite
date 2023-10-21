@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Microsoft.Xna.Framework;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +41,7 @@ namespace Preditor
             Log.Debug("Starbrite startup");
 
             _variables = new VariableStore();
-            _scripting = new Stardust(this, _variables);
+            _scripting = new Stardust(this);
             _api = new Starscream(_variables);
 
 
@@ -66,6 +67,10 @@ namespace Preditor
             _variables.Add("toggleTest", "Toggle to test Set() implementation", false, false);
         }
 
+        public void Draw(GameTime gameTime)
+        {
+            
+        }
 
     }
 }

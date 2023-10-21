@@ -9,15 +9,15 @@ namespace Preditor
     public class Stardust
     {
         private Script _script;
+        private VariableStore _variables;
 
         // external references
         private Starbrite _engine;
-        private VariableStore _variables;
+        
+        // script scanning and storage
+        private List<string> _scripts;
 
-        // scan and storage
-        private List<string> Scripts;
-
-        public Stardust(Starbrite engine, VariableStore variables)
+        public Stardust(Starbrite engine)
         {
             Log.Debug("Stardust startup");
 
@@ -25,10 +25,8 @@ namespace Preditor
             // CoreModules modules = CoreModules.Basic
             // then pass them to Script
             _engine = engine;
-            _variables = variables;
-
-            // startup
-            Scripts = new List<string>();
+            _variables = new VariableStore();
+            _scripts = new List<string>();
             
             luaSetup();
         }
@@ -61,6 +59,30 @@ namespace Preditor
             _script.Call(_script.Globals["dust"], "called from MoonTest()");
         }
 
+        public void ProcessInput(string input)
+        {
+            // split input into command and parameters
+            string[] _inputSplit = input.Split(" ");
+
+            // find command in command map
+            var _command = _engine.Commands._commandMap.Find(x => x.Command == _inputSplit[0]);
+
+            // if command found, execute
+            if (_command != null)
+            {
+                // create parameter object
+                CommandParameter _parameter = new CommandParameter(input);
+
+                // execute command
+                _command.Function(_parameter);
+            }
+            else
+            {
+                Log.Debug("Command not found: {0}", _inputSplit[0]);
+            }
+        }
+
+
         public int ListConfigFiles()
         {
             _variables.Set("toggleTest", true);
@@ -73,7 +95,7 @@ namespace Preditor
                 foreach (string _currentFile in _searchFiles)
                 {
                     Log.Debug("Found config file: {0}", _currentFile);
-                    Scripts.Add(_currentFile);
+                    _scripts.Add(_currentFile);
                 }
             }
             catch (Exception e)
@@ -81,12 +103,12 @@ namespace Preditor
                 Console.WriteLine("The process failed: {0}", e.ToString());
             }
 
-            return Scripts.Count;
+            return _scripts.Count;
         }
 
         public void ScanConfigFiles()
         {
-            foreach (var file in Scripts)
+            foreach (var file in _scripts)
             {
 
             }

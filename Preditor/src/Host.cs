@@ -71,6 +71,7 @@ namespace Preditor
             // imgui
             _imGuiRenderer.BeforeLayout(gameTime);
             _editor.Draw(gameTime);
+            _engine.Draw(gameTime);
             _imGuiRenderer.AfterLayout();
 
             // TODO: Add your drawing code here
