@@ -1,5 +1,4 @@
-﻿using System;
-namespace Preditor
+﻿namespace Preditor
 {
     public class ScriptFunctions
     {

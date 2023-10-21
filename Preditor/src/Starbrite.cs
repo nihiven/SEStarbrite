@@ -16,12 +16,8 @@ namespace Preditor
         private Starscream _api;
         private VariableStore _variables;
 
-        // move to starscream
-        private List<string> _configFiles;
-
         // accessors
         public List<Variable> Variables => _variables.Variables;
-        public List<string> ConfigFileArray => _configFiles;
 
         // Testing
         public void LuaTest() => _scripting.MoonTest();
@@ -42,9 +38,8 @@ namespace Preditor
 
             Log.Debug("Starbrite startup");
 
-            _configFiles = new List<string>();
             _variables = new VariableStore();
-            _scripting = new Stardust(_variables);
+            _scripting = new Stardust(this, _variables);
             _api = new Starscream(_variables);
 
 
@@ -70,36 +65,7 @@ namespace Preditor
             _variables.Add("toggleTest", "Toggle to test Set() implementation", false, false);
         }
 
-        public int ListConfigFiles()
-        {
-            _variables.Set("toggleTest", true);
 
-            try
-            {
-                // enumerate home directory for .ses files
-                var _searchFiles = Directory.EnumerateFiles(DirHome, FileConfigFilter, SearchOption.AllDirectories);
-
-                foreach (string _currentFile in _searchFiles)
-                {
-                    Log.Debug("Found config file: {0}", _currentFile);
-                    _configFiles.Add(_currentFile);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("The process failed: {0}", e.ToString());
-            }
-
-            return _configFiles.Count();
-        }
-
-        public void ScanConfigFiles()
-        {
-            foreach(var file in ConfigFileArray)
-            {
-
-            }
-        }
 
     }
 }
