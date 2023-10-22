@@ -30,13 +30,13 @@ namespace Preditor
 
             if (ImGui.Button("Run Lua Test"))
             {
-
                 _engine.LuaTest();
             }
 
+            if (ImGui.Button("Demo " + (_showDemoWindow ? "Off" : "On"))) _showDemoWindow = !_showDemoWindow;
+
             // TODO: this whole section is broken while we move scripting relation functions to Stardust
             /*
-            if (ImGui.Button("Demo " + (_showDemoWindow ? "Off" : "On"))) _showDemoWindow = !_showDemoWindow;
             if (ImGui.Button("List Config Files")) _engine.ListConfigFiles(); // get file list
 
             if (_engine.ConfigFileArray.Count() > 0)
