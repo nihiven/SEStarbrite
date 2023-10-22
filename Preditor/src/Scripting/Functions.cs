@@ -2,22 +2,22 @@
 {
     public class ScriptFunctions
     {
-        private VariableStore _options;
+        private Starbrite _engine;
 
-        public ScriptFunctions(VariableStore variables)
+        public ScriptFunctions(Starbrite engine)
         {
-            _options = variables;
+           _engine = engine;
         }
 
         // all internal commands should be private
         public void cmd_jb(CommandParameter commandParameters)
         {
-            _options.Add("coolCommandTest", "This is being set from cmd_jb", "Sixty niiine!", false);
+            _engine.Variables.Add("coolCommandTest", "This is being set from cmd_jb", "Sixty niiine!", false);
         }
 
         public void cmd_set(CommandParameter commandParameter)
         {
-            _options.Set(commandParameter._parametersSplit[1], commandParameter._parametersSplit[2]);
+            _engine.Variables.Set(commandParameter._parametersSplit[1], commandParameter._parametersSplit[2]);
         }
     }
 

@@ -59,30 +59,6 @@ namespace Preditor
             _script.Call(_script.Globals["dust"], "called from MoonTest()");
         }
 
-        public void ProcessInput(string input)
-        {
-            // split input into command and parameters
-            string[] _inputSplit = input.Split(" ");
-
-            // find command in command map
-            var _command = _engine.Commands._commandMap.Find(x => x.Command == _inputSplit[0]);
-
-            // if command found, execute
-            if (_command != null)
-            {
-                // create parameter object
-                CommandParameter _parameter = new CommandParameter(input);
-
-                // execute command
-                _command.Function(_parameter);
-            }
-            else
-            {
-                Log.Debug("Command not found: {0}", _inputSplit[0]);
-            }
-        }
-
-
         public int ListConfigFiles()
         {
             _variables.Set("toggleTest", true);

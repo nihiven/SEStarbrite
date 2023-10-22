@@ -18,7 +18,7 @@ namespace Preditor
         private VariableStore _variables;
 
         // accessors
-        public List<Variable> Variables => _variables.Variables;
+        public VariableStore Variables => _variables;
         
         // Testing
         public void LuaTest() => _scripting.MoonTest();
@@ -42,7 +42,7 @@ namespace Preditor
 
             _variables = new VariableStore();
             _scripting = new Stardust(this);
-            _api = new Starscream(_variables);
+            _api = new Starscream(this);
 
 
             // system - version

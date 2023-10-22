@@ -90,7 +90,7 @@ namespace Preditor
             //ImGui.Text("Edit");
 
             //-------
-            foreach (Variable variable in _engine.Variables)
+            foreach (Variable variable in _engine.Variables.List)
             {
                 string _value = _engine.GetVariable(variable);
                 string _valueDefault = _engine.GetVariable(variable);

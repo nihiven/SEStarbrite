@@ -65,7 +65,7 @@ namespace Preditor
         private List<Variable> _variables;
 
         // public stuff
-        public List<Variable> Variables => _variables; // rename to All()?
+        public List<Variable> List => _variables; // rename to All()?
         public Variable Get(string name) { return _variables.Find(x => x.Name == name); }
 
 

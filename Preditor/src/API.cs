@@ -34,18 +34,17 @@ namespace Preditor
     // stardust will need access to starbrite's internals, such as the option store
     public class Starscream
     {
-        private VariableStore _options;
+        private Starbrite _engine;
         private ScriptFunctions _functions;
             
         public List<CommandMapping> _commandMap;
 
-        public Starscream(VariableStore options) 
+        public Starscream(Starbrite engine) 
         {
             Log.Debug("Starscream startup");
 
-            _options = options;
-
-            _functions = new ScriptFunctions(_options);
+            _engine = engine;
+            _functions = new ScriptFunctions(engine);
             _commandMap = new List<CommandMapping>();
 
             // add commands
