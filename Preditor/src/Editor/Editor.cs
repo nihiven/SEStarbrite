@@ -7,13 +7,21 @@ namespace Preditor
     public class Editor
     {
         private Starbrite _engine;
+        private Stardust _scripting;
+        private Starscream _api;
+        private EventDispatcher _events;
+
+        // gui options
         private bool _showDemoWindow = false;
 
-        public Editor(Starbrite engine) 
+        public Editor(Starbrite engine, Stardust scripting, Starscream api) 
         { 
             Log.Debug("Preditor startup");
 
+            _events = new EventDispatcher();
             _engine = engine;
+            _api = api;
+            _scripting = scripting;
         }
 
         public void Draw(GameTime gameTime)

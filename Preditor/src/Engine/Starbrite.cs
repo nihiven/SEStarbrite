@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Serilog;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 // ?
 // https://learn-monogame.github.io/how-to/automate-release/
@@ -13,15 +10,13 @@ namespace Preditor
     public class Starbrite
     {
         // engine components
-        private Stardust _scripting;
-        private Starscream _api;
         private VariableStore _variables;
+        private EventDispatcher _events;
 
         // accessors
         public VariableStore Variables => _variables;
         
         // Testing
-        public void LuaTest() => _scripting.MoonTest();
         public string GetVariable(Variable variable) => _variables.GetVariableValue(variable);
         public string GetVariable(string name) => _variables.GetVariableValueByName(name);
 
@@ -31,7 +26,7 @@ namespace Preditor
         public string DirHome => _variables.GetVariableValueByName("dirHome");
         public string FileConfigFilter => _variables.GetVariableValueByName("fileConfigFilter");
 
-        public Starbrite() 
+        public Starbrite(EventDispatcher events) 
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -40,10 +35,9 @@ namespace Preditor
 
             Log.Debug("Starbrite startup");
 
+            // internal components
+            _events = events;
             _variables = new VariableStore();
-            _scripting = new Stardust(this);
-            _api = new Starscream(this);
-
 
             // system - version
             _variables.Add("engineName", "Engine name", "Starbrite", true);

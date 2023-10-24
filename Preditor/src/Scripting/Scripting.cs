@@ -39,7 +39,6 @@ namespace Preditor
             // our API script instance
             _script = new Script();
 
-
             // bind functions to lua script calls
             _script.Globals["add"] = (Action<string, string, string, bool>)_variables.Add;
             _script.Globals["set"] = (Func<string, string, bool>)_variables.Set;
