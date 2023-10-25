@@ -1,4 +1,9 @@
-﻿* Variable naming
+﻿* Thinking about how the main objects are built...
+ - Should we make a new class derived from Game?
+ - Engine/Editor inherit from new class and Host passes through calls to them?
+ - Why does GraphicsDeviceManager need a Game object?
+
+* Variable naming
  - do variables even need types?
  - do we give an option to display variable names with a type indicator?
   -- coolVarl -> coolVar[int] coolVar[bool] coolVar[string] coolVar[float]
@@ -9,9 +14,8 @@
  - need to be able to reference variables in a script/command -> {coolVar} ?
 
 * Namespaces and class names need some touching up.
-* Option Store is one thing, Variable Store is another.
+* Option Store is one thing, Variable Store is another?
 * How do we pass all of our variables to Lua?
-* Just realized that Starbrite has no way to Draw anything.
 
 
 

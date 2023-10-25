@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Preditor.Engine;
 using Serilog;
 using System;
 
@@ -7,7 +8,7 @@ using System;
 
 namespace Preditor
 {
-    public class Starbrite
+    public class Starbrite : StarbriteGame
     {
         // engine components
         private VariableStore _variables;
@@ -61,7 +62,7 @@ namespace Preditor
             _variables.Add("toggleTest", "Toggle to test Set() implementation", false, false);
         }
 
-        public void Draw(GameTime gameTime)
+        protected override void Draw(GameTime gameTime)
         {
             
         }
